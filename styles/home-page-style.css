@@ -1,0 +1,9 @@
+.content{
+    background-color: rgba(0,0,0,0.7);
+    margin-top: 5vh;
+    padding: 10vh;
+    color: gainsboro;
+    font-style: oblique;
+    font-weight: 200;
+    font-size: large;
+}
