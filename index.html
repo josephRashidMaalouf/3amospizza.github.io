@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="se">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,13 +9,15 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles/general.css"/>
+
+    <link rel="stylesheet" href="./styles/home-page-style">
   </head>
-  <body>
+  <body class="container-fluid">
     <!--HEADER-->
-    <header class="row">
+    <header class="row nav-custom">
       <div class="col">
         <nav class="navbar navbar-expand-sm">
-          <div class="container-fluid nav-custom">
+          <div class="container-fluid ">
             <button
               class="navbar-toggler"
               type="button"
@@ -26,7 +28,7 @@
               aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="#"><img src="./media/logo-white-transparent.png" class="brand-img" width="100vh"></a>
+            <a class="navbar-brand" href="#"><img src="./media/logo-white-transparent.png" class="brand-img" width="100vh" alt="Restaurant logo"></a>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -53,7 +55,7 @@
     <!-- footer -->
     <footer class="row fixed-bottom footer-custom">
         <div class="col">
-            <h5>Kontakt: </h5>
+            <h5 id="contact-footer-text">Kontakt: </h5>
         </div>
         <div class="col">
             <p>3amos@pizza.nu</p>

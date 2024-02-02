@@ -1,6 +1,9 @@
+
+
 body{
     background-image: url("../media/background-img.png");
     background-size: cover;
+    
 }
 
 .navbar{
@@ -12,9 +15,11 @@ body{
 .nav-custom{
     background-color: rgba(0, 0, 0, .6);
     position: absolute;
+    width: 100%;
     top: 0;
     
 }
+
 
 .nav-link, .navbar-brand{
     color: gainsboro;
@@ -40,6 +45,10 @@ body{
 .footer-custom{
     background-color: black;
     color: gainsboro;
+}
+
+#contact-footer-text{
+    text-align: center;
 }
 
 .band-img{
