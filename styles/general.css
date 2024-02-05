@@ -13,21 +13,23 @@ body{
 }
 
 .nav-custom{
-    background-color: rgba(0, 0, 0, .6);
+    background-color: rgba(61, 27, 20, .9);
 }
 
 
 .nav-link, .navbar-brand{
-    color: gainsboro;
+    color: silver;
+    font-weight: bold;
 }
 
 .nav-link:hover, .active {
-    color: gainsboro;
-    background-color: rgba(230,230,230, 0.6);
+    color: white;
+    font-weight: 900;
+    background-color: rgba(185, 104, 75, 0.6);
 }
 
 .navbar-brand:hover{
-    color: gainsboro;
+    color: silver;
 }
 
 .navbar-toggler-icon {
@@ -35,16 +37,18 @@ body{
 }
 
 .navbar-toggler {
-    border: 2px rgba(0, 0, 0, 0);
+    border: 2px rgb(81, 43, 25);
 }
 
 .footer-custom{
-    background-color: black;
-    color: gainsboro;
+    background-color: rgba(61, 27, 20);
+    color: silver;
+    align-items: center;
 }
 
-#contact-footer-text{
+.contact-footer-text{
     text-align: center;
+    
 }
 
 .band-img{

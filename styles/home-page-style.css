@@ -1,8 +1,8 @@
 .content{
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(61, 27, 20, .9);
     margin-top: 5vh;
     padding: 10vh;
-    color: gainsboro;
+    color: rgba(220, 224, 217);
     font-style: oblique;
     font-weight: 200;
     font-size: large;
