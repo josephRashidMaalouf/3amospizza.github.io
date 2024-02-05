@@ -1,14 +1,5 @@
 .content{
-    background-color: rgba(61, 27, 20, .9);
-    margin-top: 5vh;
-    padding: 10vh;
-    color: rgba(220, 224, 217);
     font-style: oblique;
     font-weight: 200;
     font-size: large;
-    border-radius: 20px;
-}
-
-.container{
-    width: 80%;
 }

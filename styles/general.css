@@ -54,3 +54,11 @@ body{
 .band-img{
     width: 50px;
 }
+
+.content {
+    background-color: rgba(61, 27, 20, .9);
+    margin-top: 5vh;
+    padding: 10vh;
+    color: rgba(220, 224, 217);
+    
+}
