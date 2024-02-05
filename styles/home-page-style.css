@@ -6,4 +6,9 @@
     font-style: oblique;
     font-weight: 200;
     font-size: large;
+    border-radius: 20px;
+}
+
+.container{
+    width: 80%;
 }
