@@ -22,3 +22,15 @@ function addToCart(){
 function removeFromCart(index){
     cart.splice(index, 1);
 }
+
+const menuTest = document.getElementById("menuTest");
+
+for(i = 0; i < plates.length; i++){
+
+    const menuItem = document.createElement("p");
+    
+    menuItem.innerHTML = `${plates[i].name}: ${plates[i].price} SEK`;
+
+    menuTest.appendChild(menuItem);
+    
+}
