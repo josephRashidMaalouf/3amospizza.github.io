@@ -12,6 +12,21 @@
     max-width: 250px;
 }
 
+.modal-grid{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.modal-grid > img {
+    max-width: 250px;
+    border-radius: 25px;
+    border: 5px solid black;
+    margin: 10px;
+}
+.modal-grid>p {
+    margin: 10px;
+}
+
 
 
 @media (max-width: 575px) {
@@ -24,6 +39,17 @@
     .flex-container>div{
         width: 100%;
     }
+
+    .modal-grid {
+        display: grid;
+        grid-template-columns: auto;
+    }
+    
+    .modal-grid>img {
+            max-width: 250px;
+            border-radius: 25px;
+            border: 5px solid black;
+        }
 }
 
 
