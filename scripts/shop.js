@@ -6,37 +6,22 @@ const plates = [
     {name: "Shawarmatallrik", price: 155, picURL: "./media/plates/shawarma.jpg", modalTag: "ShawarmaPlateModal", description: "Traditionell shawarma med pommes, fräsch sallad och våra hemliga kryddor. En smakupplevelse utöver det vanliga!"},
     {name: "Marghareta", price: 105, picURL: "./media/pizzas/marghareta.jpg", modalTag: "margharetaPizzaModal", description: " En klassisk Margherita pizza med mozzarella, tomater och basilika. En enkel men älskad favorit!"},
     {name: "Kebab pizza", price: 145, picURL: "./media/pizzas/kebabpizza.jpg", modalTag: "KebabPizzaModal", description: "Mör kebab, smältande ost och krispiga grönsaker. En perfekt fusion av smaker på en pizza!"},
-    {name: "Hawaii pizza", price: 145, picURL: "./media/pizzas/hawaii.jpg", modalTag: "hawaiiPizzaModal", description: " En tropisk smakresa med ananas, skinka och ost. Söt och salt, perfekt balanserad!"}
+    {name: "Hawaii pizza", price: 145, picURL: "./media/pizzas/hawaii.jpg", modalTag: "hawaiiPizzaModal", description: " En tropisk smakresa med ananas, skinka och ost. Sött och salt, perfekt balanserad!"}
 ];
 
 const cart = [];
-const selectedMenuItems = [];
-
-function addToCart(){
-    for(const item of selectedMenuItems){
-        cart.push(item);
-    }
-}
-
-function removeFromCart(index){
-    cart.splice(index, 1);
-}
 
 const plateMenus = document.getElementById("plateMenus");
+
+let itemsInBasket = document.getElementById("itemsInBasket");
+itemsInBasket.innerText = 0;
 
 
 for(i = 0; i < plates.length; i++){
 
     createCard(plates[i]);
 
-    //create modal
-    
     createModal(plates[i]);
-
-    
-
-    
-    
 }
 
 
@@ -72,6 +57,11 @@ function createCard(menuItem){
     addToCartBtn.classList.add("btn");
     addToCartBtn.classList.add("btn-primary");
     addToCartBtn.textContent = 'Beställ';
+
+    addToCartBtn.onclick = function(){
+        addToCart(menuItem);
+    }
+
     menuCardBody.appendChild(addToCartBtn);
 
     menuCard.appendChild(menuCardImg);
@@ -146,6 +136,12 @@ function createModal(menuItem){
     addToCartBtn.setAttribute('type', 'button');
     addToCartBtn.classList.add('btn', 'btn-success');
     addToCartBtn.textContent = 'Beställ';
+    addToCartBtn.setAttribute('data-bs-dismiss', 'modal');
+
+    addToCartBtn.onclick = function(){
+        addToCart(menuItem);
+
+    }
 
 
     modalFooter.appendChild(goBackButton);
@@ -163,4 +159,14 @@ function createModal(menuItem){
     modal.appendChild(modalDialog);
 
     document.body.appendChild(modal);
+}
+
+function addToCart(menuItem){
+    cart.push(menuItem)
+    itemsInBasket.innerText = cart.length;
+    
+}
+
+function removeFromCart(index){
+    cart.splice(index, 1);
 }
