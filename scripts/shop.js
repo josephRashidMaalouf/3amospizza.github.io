@@ -1,5 +1,3 @@
-
-
 const plates = [
     {name: "Falafeltallrik", price: 115, picURL: "./media/plates/falafel.jpg", modalTag: "falafelPlateModal", description: "Krispig falafel med krispiga pommes, färsk sallad och vår hemlagade tarator."},
     {name: "Kebabtallrik", price: 145, picURL: "./media/plates/kebabplate.jpg", modalTag: "kebabPlateModal", description: "Mört nötkött, krispiga pommes, fräsch sallad och valfri sås. En smakresa till traditionella smaker!"},
@@ -15,6 +13,8 @@ const plateMenus = document.getElementById("plateMenus");
 
 let itemsInBasket = document.getElementById("itemsInBasket");
 itemsInBasket.innerText = 0;
+
+const cartBtn = document.getElementById("shopping-cart-icon");
 
 
 for(i = 0; i < plates.length; i++){

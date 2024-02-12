@@ -29,8 +29,12 @@
 
 #shopping-cart-icon{
     width: 50px;
+    
 }
-
+#shopping-cart-icon:hover {
+    width: 50px;
+    cursor: pointer;
+}
 
 
 @media (max-width: 575px) {
