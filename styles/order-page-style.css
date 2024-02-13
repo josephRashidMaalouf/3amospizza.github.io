@@ -36,6 +36,12 @@
     cursor: pointer;
 }
 
+.cart-btn{
+    background-color: rgba(0, 0, 0, 0);
+    border: 0px;
+    color: white;
+}
+
 
 @media (max-width: 575px) {
     .flex-container {

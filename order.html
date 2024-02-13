@@ -59,17 +59,41 @@
     <div class="col content">
       <div>
         <h3>Meny</h3>
-        <img src="./media/shopping-cart-icon.png" id="shopping-cart-icon"/>
-        <p id="itemsInBasket"></p>
-      </div>
+        
+        <button class="cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#order-checkout">
+          <img src="./media/shopping-cart-icon.png" id="shopping-cart-icon"/>
+          <p id="itemsInBasket"></p>
+        </button>
+          
+      
       <div id="plateMenus" class="flex-container"></div>
    
     </div>
 
   </main>
     
-    
-    
+ 
+  <div class="offcanvas offcanvas-end" id="order-checkout">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Din beställning</h1>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+    </div>
+
+    <div class="offcanvas-body" id="cartCheckOutInfo">
+
+      <ul class="list-group" id="cartCheckOutInfoList">
+      </ul>
+      <p>Totalt: </p>
+      <div id="price"></div>
+      <button class="btn btn-success" id="orderBtn">Beställ</button>
+      
+    </div>
+  </div>
+
+
+   
+
+
 
     <!-- footer -->
     <footer class="row fixed-bottom footer-custom">
