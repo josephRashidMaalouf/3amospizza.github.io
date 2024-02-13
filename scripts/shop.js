@@ -2,7 +2,7 @@ const plates = [
   {
     name: "Falafeltallrik",
     price: 115,
-    picURL: "./media/plates/falafel.jpg",
+    picURL: "./media/plates/falafel.webp",
     modalTag: "falafelPlateModal",
     description:
       "Krispig falafel med krispiga pommes, färsk sallad och vår hemlagade tarator.",
@@ -10,7 +10,7 @@ const plates = [
   {
     name: "Kebabtallrik",
     price: 145,
-    picURL: "./media/plates/kebabplate.jpg",
+    picURL: "./media/plates/kebabplate.webp",
     modalTag: "kebabPlateModal",
     description:
       "Mört nötkött, krispiga pommes, fräsch sallad och valfri sås. En smakresa till traditionella smaker!",
@@ -18,7 +18,7 @@ const plates = [
   {
     name: "Shawarmatallrik",
     price: 155,
-    picURL: "./media/plates/shawarma.jpg",
+    picURL: "./media/plates/shawarma.webp",
     modalTag: "ShawarmaPlateModal",
     description:
       "Traditionell shawarma med pommes, fräsch sallad och våra hemliga kryddor. En smakupplevelse utöver det vanliga!",
@@ -26,7 +26,7 @@ const plates = [
   {
     name: "Marghareta",
     price: 105,
-    picURL: "./media/pizzas/marghareta.jpg",
+    picURL: "./media/pizzas/marghareta.webp",
     modalTag: "margharetaPizzaModal",
     description:
       " En klassisk Margherita pizza med mozzarella, tomater och basilika. En enkel men älskad favorit!",
@@ -34,7 +34,7 @@ const plates = [
   {
     name: "Kebab pizza",
     price: 145,
-    picURL: "./media/pizzas/kebabpizza.jpg",
+    picURL: "./media/pizzas/kebabpizza.webp",
     modalTag: "KebabPizzaModal",
     description:
       "Mör kebab, smältande ost och krispiga grönsaker. En perfekt fusion av smaker på en pizza!",
@@ -42,7 +42,7 @@ const plates = [
   {
     name: "Hawaii pizza",
     price: 145,
-    picURL: "./media/pizzas/hawaii.jpg",
+    picURL: "./media/pizzas/hawaii.webp",
     modalTag: "hawaiiPizzaModal",
     description:
       " En tropisk smakresa med ananas, skinka och ost. Sött och salt, perfekt balanserad!",
@@ -80,6 +80,7 @@ function createCard(menuItem) {
   menuCard.classList.add("card");
 
   const menuCardImg = document.createElement("img");
+  menuCardImg.setAttribute("loading", "lazy");
   menuCardImg.classList.add("card-img-top");
   menuCardImg.src = menuItem.picURL;
   menuCardImg.alt = `En bild på ${menuItem.name}`;
@@ -154,6 +155,7 @@ function createModal(menuItem) {
   modalBody.appendChild(grid);
 
   const img = document.createElement("img");
+  img.setAttribute("loading", "lazy");
   img.src = menuItem.picURL;
 
   grid.appendChild(img);
