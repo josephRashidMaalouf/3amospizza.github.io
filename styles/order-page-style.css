@@ -1,5 +1,5 @@
 body{
-    min-width: 420px;
+    min-width: 320px;
 }
 
 .flex-container {
@@ -18,6 +18,8 @@ body{
 
 .card{
     width: 248px;
+    background-color: #844836;
+    color: #DAA68D
 }
 
 
@@ -57,14 +59,17 @@ body{
 }
 
 .btn-primary{
-    background-color: #844836;
+    background-color: #312827;
+    color: #DAA68D;
     border: 0px;
     margin: 5px;
 }
 
-.btn-primary{
-
+.btn-primary:hover{
+    background-color: #DAA68D;
+    color: #312827;
 }
+
 
 #shopping-cart-icon{
     width: 50px;
