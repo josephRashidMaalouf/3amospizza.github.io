@@ -16,17 +16,16 @@ body{
     width: 250px;
 }
 
-.card{
-    width: 248px;
+.card, .modal-content {
     background-color: #844836;
-    color: #DAA68D
+    color: #DAA68D;
+    border: 3px solid #312827;
 }
 
 
-/* .card-img-top{
-    height: 208px;
-    width: 208px;
-} */
+.card-img-top{
+    border: 3px solid #312827;
+}
 
 
 .modal-grid{
@@ -49,12 +48,14 @@ body{
 .btn-danger{
     background-color: #7A130D;
     border: 0px;
+    margin: 5px;
 
 }
 
 .btn-success {
     background-color: #006c67;
     border: 0px;
+    margin: 5px;
 
 }
 
