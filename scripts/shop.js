@@ -93,16 +93,14 @@ function createCard(menuItem) {
   menuCardBody.appendChild(foodTitle);
 
   const readMoreBtn = document.createElement("button");
-  readMoreBtn.classList.add("btn");
-  readMoreBtn.classList.add("btn-primary");
+  readMoreBtn.classList.add("btn", "btn-primary");
   readMoreBtn.setAttribute("data-bs-toggle", "modal");
   readMoreBtn.setAttribute("data-bs-target", "#" + menuItem.modalTag);
   readMoreBtn.textContent = "Mer info";
   menuCardBody.appendChild(readMoreBtn);
 
   const addToCartBtn = document.createElement("button");
-  addToCartBtn.classList.add("btn");
-  addToCartBtn.classList.add("btn-primary");
+  addToCartBtn.classList.add("btn", "btn-primary");
   addToCartBtn.textContent = "Beställ";
 
   addToCartBtn.onclick = function () {
