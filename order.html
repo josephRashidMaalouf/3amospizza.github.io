@@ -57,13 +57,21 @@
 
     <div class="col content">
       <div>
-        <h3>Meny</h3>
-        
-        <button class="cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#order-checkout">
-          <img src="./media/shopping-cart-icon.webp" alt="Shopping cart icon" id="shopping-cart-icon"/>
-          <p id="itemsInBasket"></p>
-        </button>
-          
+
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <h3>Meny</h3>
+            </div>
+            <div class="col cart-icon">
+                <button class="cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#order-checkout">
+                  <img src="./media/shopping-cart-icon.webp" alt="Shopping cart icon" id="shopping-cart-icon"/>
+                  <p id="itemsInBasket"></p>
+                </button>
+            </div>
+          </div>
+        </div>
+
       
       <div id="plateMenus" class="flex-container"></div>
    

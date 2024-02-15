@@ -71,10 +71,19 @@ body{
     color: #312827;
 }
 
+.cart-icon {
+    display: flex;
+    justify-content: end;
+    padding-right: 10vh;
+}
 
 #shopping-cart-icon{
     width: 50px;
     
+}
+
+.col > h3{
+    padding-left: 10vh;
 }
 #shopping-cart-icon:hover {
     width: 50px;
@@ -82,9 +91,14 @@ body{
 }
 
 .cart-btn{
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 108, 103 );
+    width: 75px;
+    height: 75px;
+    padding-top: 15px;
+    border-radius: 50%;
     border: 0px;
     color: white;
+    font-weight: bold;
 }
 
 

@@ -6,9 +6,8 @@ body{
 }
 
 .navbar{
-        
-        padding-bottom: 30px;
         min-height: 20vh;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .nav-link, .navbar-brand{
@@ -45,9 +44,7 @@ body{
     
 }
 
-.band-img{
-    width: 50px;
-}
+
 
 .content {
     padding: 10vh;
