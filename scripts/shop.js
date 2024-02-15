@@ -65,6 +65,11 @@ price.innerText = 0 + " SEK";
 const orderBtn = document.getElementById("orderBtn");
 orderBtn.onclick = function () {
   makeOrder();
+  var toastElList = [].slice.call(document.querySelectorAll(".toast"));
+  var toastList = toastElList.map(function (toastEl) {
+    return new bootstrap.Toast(toastEl);
+  });
+  toastList.forEach((toast) => toast.show());
 };
 
 for (i = 0; i < plates.length; i++) {
@@ -242,8 +247,10 @@ function calculatePrice() {
 }
 
 function makeOrder() {
+  let orderInfo = document.getElementById("orderInfo");
+
   if (cart.length < 1) {
-    alert("Du har inte gjort någon beställning");
+    orderInfo.innerText = "Du har inte gjort någon beställning";
   } else {
     cart.length = 0;
 
@@ -251,9 +258,8 @@ function makeOrder() {
       cartCheckOutInfoList.removeChild(cartCheckOutInfoList.firstChild);
     }
 
-    alert(
-      "Välkommen att hämta upp din beställning om femton minuter - en kvart"
-    );
+    orderInfo.innerText =
+      "Välkommen att hämta upp din beställning om femton minuter - en kvart";
 
     price.innerText = 0 + " SEK";
     itemsInBasket.innerText = 0;

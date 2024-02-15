@@ -3,8 +3,8 @@ const apiURL =
 
 let temp;
 let isDay;
-let rain;
-let clouds;
+let isRaining = false;
+let isCloudy = false;
 let fetchSuccess = true;
 
 let pizzaPicNic = true;
@@ -16,8 +16,14 @@ fetch(apiURL)
   .then((data) => {
     temp = data.current.temperature_2m;
     isDay = data.current.is_day;
-    rain = data.current.rain;
-    clouds = data.current.cloud_cover;
+
+    if (data.current.rain > 1) {
+      isRaining = true;
+    }
+
+    if (data.current.cloud_cover > 10) {
+      isCloudy = true;
+    }
 
     makeSuggestion();
     printMessage();
@@ -28,14 +34,27 @@ fetch(apiURL)
   });
 
 function makeSuggestion() {
+  message = `Det är ${temp} °C och `;
+
+  if (isCloudy) {
+    message += `molnigt ute.`;
+    pizzaPicNic = false;
+  } else {
+    message += `soligt ute.`;
+  }
+
+  if (isRaining) {
+    message += ` Dessutom regnar det.`;
+  }
+
   if (isDay) {
-    if (temp > 20 && rain < 1 && cloud < 10) {
-      message = `Det är ${temp} °C och sol! Vad sägs om att köpa med en pizza och äta den ute i solen?`;
+    if (pizzaPicNic) {
+      message += ` Om du frågar mig är detta det ultimata vädret för att äta en pizza ute i solen ;)`;
     } else {
-      message = `Taskigt väder... Vad sägs om att beställa hem pizza?`;
+      message += ` Taskigt väder om du frågar mig. Varför inte beställa hem en pizza? Fri utkörning för beställningar över 200 SEK.`;
     }
   } else {
-    message = `Vad sägs om en härlig film- och pizzakväll?`;
+    message += ` Men vad spelar det för roll när det är kväll? Bjud över polarna på en film- och pizzakväll vet ja. \nJust nu erbjuder vi 2 för 1 på alla våra menyer!`;
   }
 }
 

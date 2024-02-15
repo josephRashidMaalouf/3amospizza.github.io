@@ -72,8 +72,17 @@
           </div>
         </div>
 
+        <p>
+          Utforska en smakresa genom generationer på 3amos – din destination för enastående pizza. 
+          Från klassiska favoriter till våra egna kreationer, bär varje tugga på kärlek och tradition.
+          Tryck på knappen nedan för att börja utforska din nästa smakresa!
+        </p>
+        <button class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#demo">Ta mig på en smakresa</button>
+
+        <div id="demo" class="collapse">
+          <div id="plateMenus" class="flex-container"></div>
+        </div>
       
-      <div id="plateMenus" class="flex-container"></div>
    
     </div>
 
@@ -93,15 +102,23 @@
       <p>Totalt: </p>
       <div id="price"></div>
       <button class="btn btn-success" id="orderBtn">Beställ</button>
-      
+
+
+      <div class="toast">
+        <div class="toast-header">
+          <strong class="me-auto">Din beställning</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+      </div>
+      <div class="toast-body">
+      <p id="orderInfo"></p>
     </div>
+    </div>
+    </div>
+
   </div>
 
 
    
-
-
-
     <!-- footer -->
     <footer class="row fixed-bottom footer-custom">
         <div class="col">

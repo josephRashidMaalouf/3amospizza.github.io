@@ -5,9 +5,18 @@ body{
     background-size: 100%;
 }
 
+img{
+    aspect-ratio: auto 1 / 1;
+}
+
 .navbar{
         min-height: 20vh;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.navbar, .btn{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: larger;
+    font-weight: bolder;
 }
 
 .nav-link, .navbar-brand{
@@ -23,6 +32,11 @@ body{
 
 .navbar-brand:hover{
     color: silver;
+}
+
+.content {
+    font-weight: 200;
+    font-size: large;
 }
 
 .navbar-toggler-icon {

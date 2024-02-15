@@ -64,6 +64,7 @@ body{
     color: #DAA68D;
     border: 0px;
     margin: 5px;
+    font-size: medium;
 }
 
 .btn-primary:hover{

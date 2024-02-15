@@ -1,4 +1,7 @@
-.content{
-    font-weight: 200;
-    font-size: large;
+.alert{
+    border: 0px;
+    background-color: #844836;
+    color: #DAA68D;
+    font-weight: 400;
+    display: inline-block;
 }
