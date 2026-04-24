@@ -1,0 +1,530 @@
+/* ─────────────────────────────────────────
+   DESCENT — Into the Deep
+   ───────────────────────────────────────── */
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 200, 255, 0.15) transparent;
+}
+
+body {
+  background: #000a14;
+  color: #9dd3e8;
+  font-family: 'Cormorant Garamond', 'Palatino Linotype', Georgia, serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CANVAS ── */
+#c {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: rgba(140, 220, 255, 0.9);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  box-shadow: 0 0 8px 2px rgba(100, 200, 255, 0.5);
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(100, 200, 255, 0.35);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, opacity 0.3s ease;
+}
+
+/* ── DEPTH GAUGE ── */
+.gauge {
+  position: fixed;
+  left: 2.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.gauge-label {
+  font-family: 'Space Mono', 'Courier New', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  color: rgba(100, 200, 255, 0.35);
+  writing-mode: vertical-rl;
+  margin-bottom: 0.4rem;
+}
+
+.gauge-track {
+  width: 1.5px;
+  height: 180px;
+  background: rgba(100, 200, 255, 0.08);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gauge-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(
+    to bottom,
+    rgba(100, 220, 255, 0.8),
+    rgba(160, 80, 255, 0.6)
+  );
+  border-radius: 2px;
+  transition: height 0.15s ease;
+}
+
+.gauge-val {
+  font-family: 'Space Mono', 'Courier New', monospace;
+  font-size: 0.58rem;
+  color: rgba(100, 200, 255, 0.45);
+  writing-mode: vertical-rl;
+  letter-spacing: 0.08em;
+  margin-top: 0.4rem;
+  min-width: 1rem;
+  text-align: center;
+}
+
+/* ── CURSOR HINT ── */
+.cursor-hint {
+  position: fixed;
+  bottom: 2rem;
+  right: 2.5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: rgba(100, 200, 255, 0.35);
+  z-index: 200;
+  pointer-events: none;
+  animation: flicker 4s ease infinite;
+}
+
+/* ── ZONE BASE ── */
+.zone {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.content {
+  max-width: 600px;
+  padding: 5rem 2.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content.vis {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── HERO ── */
+.hero-zone {
+  min-height: 100vh;
+}
+
+.hero-zone .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: rgba(100, 200, 255, 0.45);
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(5.5rem, 20vw, 15rem);
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  line-height: 0.88;
+  color: rgba(255, 255, 255, 0.94);
+  margin-bottom: 2rem;
+  text-shadow:
+    0 0 80px rgba(100, 200, 255, 0.18),
+    0 0 160px rgba(100, 200, 255, 0.08);
+}
+
+.lead {
+  font-size: 1.05rem;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(157, 211, 232, 0.65);
+  line-height: 1.85;
+  max-width: 400px;
+  margin-bottom: 3.5rem;
+}
+
+.down-arrow {
+  width: 1px;
+  height: 72px;
+  background: linear-gradient(to bottom, rgba(100, 200, 255, 0.55), transparent);
+  animation: arrow-fall 2.4s ease infinite;
+}
+
+/* ── ZONE CONTENT ── */
+.zone-depth {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  color: rgba(100, 200, 255, 0.35);
+  margin-bottom: 1.4rem;
+}
+
+h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 1.75rem;
+}
+
+.zone p {
+  font-size: 1.12rem;
+  font-weight: 300;
+  line-height: 1.95;
+  color: rgba(157, 211, 232, 0.68);
+  margin-bottom: 1.5rem;
+}
+
+blockquote {
+  font-size: 1rem;
+  font-style: italic;
+  color: rgba(100, 180, 220, 0.5);
+  border-left: 1.5px solid rgba(100, 200, 255, 0.18);
+  padding-left: 1.25rem;
+  text-align: left;
+  line-height: 1.75;
+}
+
+/* ── ZONE-SPECIFIC TINTS (very subtle, just for text legibility) ── */
+.zone[data-zone="sunlit"]   { background: linear-gradient(to bottom, rgba(0,30,70,0.22), rgba(0,15,45,0.4)); }
+.zone[data-zone="twilight"] { background: linear-gradient(to bottom, rgba(0,8,45,0.45), rgba(8,0,38,0.55)); }
+.zone[data-zone="midnight"] { background: linear-gradient(to bottom, rgba(4,0,18,0.65), rgba(2,0,12,0.75)); }
+.zone[data-zone="abyss"]    { background: rgba(1,0,7,0.82); }
+.zone[data-zone="hadal"]    { background: rgba(0,0,4,0.9); }
+
+/* ── CSS FISH ── */
+.swimmers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.fish {
+  position: absolute;
+  pointer-events: none;
+}
+
+.fish::before {
+  content: '';
+  display: block;
+  background: rgba(120, 210, 255, 0.11);
+  border-radius: 50%;
+}
+
+.fish::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(120, 210, 255, 0.09);
+  clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+}
+
+.f1 { top: 22%; animation: swim 26s linear infinite; }
+.f1::before { width: 70px; height: 28px; }
+.f1::after  { right: 65px; width: 22px; height: 20px; }
+
+.f2 { top: 62%; animation: swim 34s -12s linear infinite; }
+.f2::before { width: 48px; height: 20px; }
+.f2::after  { right: 43px; width: 16px; height: 14px; }
+
+.f3 { top: 40%; animation: swim 20s -7s linear infinite; }
+.f3::before { width: 90px; height: 36px; }
+.f3::after  { right: 83px; width: 28px; height: 26px; }
+
+/* ── CSS JELLYFISH ── */
+.jellies {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.jelly {
+  position: absolute;
+}
+
+.jb {
+  width: 72px;
+  height: 52px;
+  background: radial-gradient(
+    ellipse at 38% 32%,
+    rgba(160, 230, 255, 0.28),
+    rgba(100, 160, 255, 0.08)
+  );
+  border-radius: 50% 50% 30% 30%;
+  border: 1px solid rgba(140, 220, 255, 0.18);
+  position: relative;
+  animation: jb-pulse 3.2s ease-in-out infinite;
+}
+
+.jb::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 15%;
+  right: 15%;
+  height: 14px;
+  background: rgba(140, 200, 255, 0.07);
+  border-radius: 0 0 50% 50%;
+}
+
+.jt {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  padding-top: 3px;
+}
+
+.jt::before,
+.jt::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(140, 220, 255, 0.25), transparent);
+  box-shadow: 10px 0 rgba(140,220,255,0.15), -10px 0 rgba(140,220,255,0.15),
+              20px 8px rgba(140,220,255,0.1), -20px 8px rgba(140,220,255,0.1);
+}
+
+.j1 { left: 18%; top: 105%; animation: jelly-rise 28s -4s linear infinite; }
+.j2 { left: 68%; top: 115%; animation: jelly-rise 38s -18s linear infinite; }
+
+/* ── ANGLERFISH ── */
+.angler {
+  position: relative;
+  width: 110px;
+  height: 72px;
+  margin: 2.5rem auto 1rem;
+}
+
+.angler-body {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse 60% 50% at 55% 50%,
+    rgba(25, 10, 45, 0.9),
+    rgba(10, 5, 20, 0.6)
+  );
+  border-radius: 40% 60% 55% 45%;
+  border: 1px solid rgba(120, 60, 180, 0.2);
+  position: relative;
+}
+
+/* eye */
+.angler-body::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: rgba(200, 180, 255, 0.5);
+  border-radius: 50%;
+  top: 30%;
+  right: 22%;
+  box-shadow: 0 0 6px 2px rgba(200, 180, 255, 0.3);
+  animation: blink 6s ease infinite;
+}
+
+.angler-lure {
+  position: absolute;
+  top: -36px;
+  left: 28px;
+}
+
+/* spine */
+.angler-lure::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 5px;
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(to top, rgba(120, 255, 180, 0.3), transparent);
+}
+
+/* orb */
+.angler-lure::after {
+  content: '';
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle, #afffcc, #55eeaa);
+  border-radius: 50%;
+  box-shadow:
+    0 0 8px 4px rgba(100, 255, 180, 0.5),
+    0 0 24px 10px rgba(100, 255, 180, 0.18);
+  animation: lure 2.1s ease-in-out infinite;
+}
+
+/* ── FINAL ZONE ── */
+.final-zone {
+  background: radial-gradient(ellipse at center, rgba(18,5,48,0.9) 0%, rgba(0,0,6,0.97) 100%);
+  min-height: 100vh;
+}
+
+.final-content {
+  max-width: 680px;
+}
+
+.final-h {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.8rem, 8vw, 6rem);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.93);
+  margin-bottom: 2.5rem;
+  line-height: 1.1;
+}
+
+.final-p {
+  font-size: 1.15rem;
+  line-height: 1.95;
+  color: rgba(200, 180, 255, 0.7);
+  margin-bottom: 1.25rem;
+}
+
+.final-p.em {
+  font-style: italic;
+  font-size: 1.3rem;
+  color: rgba(200, 180, 255, 0.88);
+  margin-top: 1.5rem;
+}
+
+.ascend {
+  display: inline-block;
+  margin-top: 3.5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(160, 120, 255, 0.6);
+  text-decoration: none;
+  border: 1px solid rgba(160, 120, 255, 0.18);
+  padding: 0.85rem 2.25rem;
+  border-radius: 50px;
+  transition: all 0.5s ease;
+}
+
+.ascend:hover {
+  color: rgba(210, 190, 255, 1);
+  border-color: rgba(160, 120, 255, 0.55);
+  background: rgba(160, 120, 255, 0.08);
+  text-shadow: 0 0 20px rgba(160, 120, 255, 0.5);
+  letter-spacing: 0.45em;
+}
+
+/* ── KEYFRAMES ── */
+@keyframes arrow-fall {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+  100% { transform: scaleY(1); transform-origin: top; opacity: 0; }
+}
+
+@keyframes swim {
+  from { transform: translateX(108vw); }
+  to   { transform: translateX(-20vw); }
+}
+
+@keyframes jelly-rise {
+  from { transform: translateY(0) translateX(0px); }
+  25%  { transform: translateY(-28vh) translateX(12px); }
+  50%  { transform: translateY(-56vh) translateX(-8px); }
+  75%  { transform: translateY(-84vh) translateX(10px); }
+  to   { transform: translateY(-115vh) translateX(0px); }
+}
+
+@keyframes jb-pulse {
+  0%, 100% { transform: scaleX(1) scaleY(1); }
+  50%       { transform: scaleX(0.84) scaleY(1.12); }
+}
+
+@keyframes lure {
+  0%, 100% {
+    box-shadow: 0 0 8px 4px rgba(100,255,180,0.5), 0 0 24px 10px rgba(100,255,180,0.18);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 4px 2px rgba(100,255,180,0.2), 0 0 10px 4px rgba(100,255,180,0.07);
+    opacity: 0.4;
+  }
+}
+
+@keyframes blink {
+  0%, 92%, 100% { opacity: 1; transform: scaleY(1); }
+  95%           { opacity: 0; transform: scaleY(0.1); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.35; }
+  40%      { opacity: 0.65; }
+  60%      { opacity: 0.25; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .gauge, .cursor-hint { display: none; }
+  body { cursor: auto; }
+  .cursor-dot, .cursor-ring { display: none; }
+  .content { padding: 4rem 1.75rem; }
+  h1 { letter-spacing: 0.2em; }
+}
