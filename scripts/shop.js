@@ -1,6 +1,7 @@
 const plates = [
   {
     name: "Falafeltallrik",
+    category: "plate",
     price: 115,
     picURL: "./media/plates/falafel.webp",
     modalTag: "falafelPlateModal",
@@ -9,6 +10,7 @@ const plates = [
   },
   {
     name: "Kebabtallrik",
+    category: "plate",
     price: 145,
     picURL: "./media/plates/kebabplate.webp",
     modalTag: "kebabPlateModal",
@@ -17,6 +19,7 @@ const plates = [
   },
   {
     name: "Shawarmatallrik",
+    category: "plate",
     price: 155,
     picURL: "./media/plates/shawarma.webp",
     modalTag: "ShawarmaPlateModal",
@@ -25,14 +28,16 @@ const plates = [
   },
   {
     name: "Marghareta",
+    category: "pizza",
     price: 105,
     picURL: "./media/pizzas/marghareta.webp",
     modalTag: "margharetaPizzaModal",
     description:
-      " En klassisk Margherita pizza med mozzarella, tomater och basilika. En enkel men älskad favorit!",
+      "En klassisk Margherita pizza med mozzarella, tomater och basilika. En enkel men älskad favorit!",
   },
   {
     name: "Kebab pizza",
+    category: "pizza",
     price: 145,
     picURL: "./media/pizzas/kebabpizza.webp",
     modalTag: "KebabPizzaModal",
@@ -41,227 +46,173 @@ const plates = [
   },
   {
     name: "Hawaii pizza",
+    category: "pizza",
     price: 145,
     picURL: "./media/pizzas/hawaii.webp",
     modalTag: "hawaiiPizzaModal",
     description:
-      " En tropisk smakresa med ananas, skinka och ost. Sött och salt, perfekt balanserad!",
+      "En tropisk smakresa med ananas, skinka och ost. Sött och salt, perfekt balanserad!",
   },
 ];
 
 const cart = [];
 
-const plateMenus = document.getElementById("plateMenus");
-
-let itemsInBasket = document.getElementById("itemsInBasket");
-itemsInBasket.innerText = 0;
-
-const cartBtn = document.getElementById("shopping-cart-icon");
-
-const cartCheckOutInfoList = document.getElementById("cartCheckOutInfoList");
-const price = document.getElementById("price");
-price.innerText = 0 + " SEK";
-
+const menuGrid = document.getElementById("plateMenus");
+const cartList = document.getElementById("cartCheckOutInfoList");
+const priceEl = document.getElementById("price");
+const itemsEl = document.getElementById("itemsInBasket");
+const cartFab = document.getElementById("cartFab");
 const orderBtn = document.getElementById("orderBtn");
-orderBtn.onclick = function () {
-  makeOrder();
-  var toastElList = [].slice.call(document.querySelectorAll(".toast"));
-  var toastList = toastElList.map(function (toastEl) {
-    return new bootstrap.Toast(toastEl);
+
+plates.forEach(createCard);
+plates.forEach(createModal);
+syncCartUI();
+
+// Category filter
+document.querySelectorAll(".filter-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    const filter = btn.dataset.filter;
+    document.querySelectorAll(".menu-card-wrap").forEach((wrap) => {
+      wrap.style.display =
+        filter === "all" || wrap.dataset.category === filter ? "" : "none";
+    });
   });
-  toastList.forEach((toast) => toast.show());
-};
+});
 
-for (i = 0; i < plates.length; i++) {
-  createCard(plates[i]);
+orderBtn.addEventListener("click", () => {
+  makeOrder();
+  new bootstrap.Toast(document.querySelector(".toast")).show();
+});
 
-  createModal(plates[i]);
+function createCard(item) {
+  const badgeLabel = item.category === "pizza" ? "Pizza" : "Tallrik";
+
+  const wrap = document.createElement("div");
+  wrap.className = "menu-card-wrap";
+  wrap.dataset.category = item.category;
+
+  wrap.innerHTML = `
+    <div class="menu-card">
+      <div class="menu-card-img-wrap">
+        <img src="${item.picURL}" alt="${item.name}" loading="lazy">
+        <span class="menu-card-badge">${badgeLabel}</span>
+      </div>
+      <div class="menu-card-body">
+        <h5>${item.name}</h5>
+        <p class="menu-card-desc">${item.description}</p>
+        <div class="menu-card-footer">
+          <span class="menu-card-price">${item.price} SEK</span>
+          <div class="menu-card-actions">
+            <button class="btn-info-custom"
+              data-bs-toggle="modal"
+              data-bs-target="#${item.modalTag}">Mer info</button>
+            <button class="btn-add-custom">+ Lägg till</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  wrap.querySelector(".btn-add-custom").addEventListener("click", () => addToCart(item));
+  menuGrid.appendChild(wrap);
 }
 
-//functions
-
-function createCard(menuItem) {
-  const menuCard = document.createElement("div");
-  menuCard.classList.add("card");
-
-  const menuCardImg = document.createElement("img");
-  menuCardImg.setAttribute("loading", "lazy");
-  menuCardImg.classList.add("card-img-top");
-  menuCardImg.src = menuItem.picURL;
-  menuCardImg.alt = `En bild på ${menuItem.name}`;
-
-  const menuCardBody = document.createElement("div");
-  menuCardBody.classList.add("card-body");
-
-  const foodTitle = document.createElement("h5");
-  foodTitle.innerText = `${menuItem.name} \n ${menuItem.price} SEK`;
-  menuCardBody.appendChild(foodTitle);
-
-  const readMoreBtn = document.createElement("button");
-  readMoreBtn.classList.add("btn", "btn-primary");
-  readMoreBtn.setAttribute("data-bs-toggle", "modal");
-  readMoreBtn.setAttribute("data-bs-target", "#" + menuItem.modalTag);
-  readMoreBtn.textContent = "Mer info";
-  menuCardBody.appendChild(readMoreBtn);
-
-  const addToCartBtn = document.createElement("button");
-  addToCartBtn.classList.add("btn", "btn-primary");
-  addToCartBtn.textContent = "Beställ";
-
-  addToCartBtn.onclick = function () {
-    addToCart(menuItem);
-  };
-
-  menuCardBody.appendChild(addToCartBtn);
-
-  menuCard.appendChild(menuCardImg);
-  menuCard.appendChild(menuCardBody);
-
-  plateMenus.appendChild(menuCard);
-}
-
-function createModal(menuItem) {
+function createModal(item) {
   const modal = document.createElement("div");
-  modal.id = menuItem.modalTag;
-  modal.classList.add("modal", "fade");
+  modal.id = item.modalTag;
+  modal.className = "modal fade";
+  modal.setAttribute("tabindex", "-1");
 
-  const modalDialog = document.createElement("div");
-  modalDialog.classList.add("modal-dialog", "modal-centered");
+  modal.innerHTML = `
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">${item.name} &mdash; ${item.price} SEK</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Stäng"></button>
+        </div>
+        <div class="modal-body">
+          <img src="${item.picURL}" alt="${item.name}" loading="lazy">
+          <p>${item.description}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-outline-custom" data-bs-dismiss="modal">Tillbaka</button>
+          <button type="button" class="btn-primary-custom" data-bs-dismiss="modal" id="modal-add-${item.modalTag}">
+            Lägg till i varukorg
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
 
-  const modalContent = document.createElement("div");
-  modalContent.classList.add("modal-content");
-
-  //header
-  const modalHeader = document.createElement("div");
-  modalHeader.classList.add("modal-header");
-
-  const modalTitle = document.createElement("h5");
-  modalTitle.classList.add("modal-title");
-  modalTitle.textContent = `${menuItem.name} - ${menuItem.price} kr`;
-
-  const closeButton = document.createElement("button");
-  closeButton.setAttribute("type", "button");
-  closeButton.classList.add("btn-close");
-  closeButton.setAttribute("data-bs-dismiss", "modal");
-  closeButton.setAttribute("aria-label", "Close");
-
-  modalHeader.appendChild(modalTitle);
-  modalHeader.appendChild(closeButton);
-
-  //body
-
-  const modalBody = document.createElement("div");
-  modalBody.classList.add("modal-body");
-
-  const grid = document.createElement("div");
-  grid.classList.add("modal-grid");
-  modalBody.appendChild(grid);
-
-  const img = document.createElement("img");
-  img.setAttribute("loading", "lazy");
-  img.src = menuItem.picURL;
-
-  grid.appendChild(img);
-
-  const description = document.createElement("p");
-  description.innerText = menuItem.description;
-
-  grid.appendChild(description);
-
-  //footer
-  const modalFooter = document.createElement("div");
-  modalFooter.classList.add("modal-footer");
-
-  const goBackButton = document.createElement("button");
-  goBackButton.setAttribute("type", "button");
-  goBackButton.classList.add("btn", "btn-danger");
-  goBackButton.setAttribute("data-bs-dismiss", "modal");
-  goBackButton.textContent = "Tillbaka";
-
-  const addToCartBtn = document.createElement("button");
-  addToCartBtn.setAttribute("type", "button");
-  addToCartBtn.classList.add("btn", "btn-success");
-  addToCartBtn.textContent = "Beställ";
-  addToCartBtn.setAttribute("data-bs-dismiss", "modal");
-
-  addToCartBtn.onclick = function () {
-    addToCart(menuItem);
-  };
-
-  modalFooter.appendChild(goBackButton);
-  modalFooter.appendChild(addToCartBtn);
-
-  //glue
-
-  modalContent.appendChild(modalHeader);
-  modalContent.appendChild(modalBody);
-  modalContent.appendChild(modalFooter);
-
-  modalDialog.appendChild(modalContent);
-
-  modal.appendChild(modalDialog);
+  modal
+    .querySelector(`#modal-add-${item.modalTag}`)
+    .addEventListener("click", () => addToCart(item));
 
   document.body.appendChild(modal);
 }
 
-function addToCart(menuItem) {
-  cart.push(menuItem);
-  itemsInBasket.innerText = cart.length;
+function addToCart(item) {
+  cart.push(item);
 
-  const li = document.createElement("li");
-  li.classList.add("list-group-item");
-  li.innerText = `${menuItem.name} - ${menuItem.price} SEK`;
+  const emptyMsg = cartList.querySelector(".cart-empty");
+  if (emptyMsg) emptyMsg.remove();
 
-  const removeBtn = document.createElement("button");
-  removeBtn.classList.add("btn", "btn-danger");
-  removeBtn.innerText = "Ta bort";
+  const cartItem = document.createElement("div");
+  cartItem.className = "cart-item";
+  cartItem.innerHTML = `
+    <div>
+      <div class="cart-item-name">${item.name}</div>
+      <div class="cart-item-price">${item.price} SEK</div>
+    </div>
+    <button class="cart-item-remove">Ta bort</button>
+  `;
 
-  removeBtn.onclick = function () {
-    removeFromCart(menuItem);
-    li.remove();
-  };
+  cartItem.querySelector(".cart-item-remove").addEventListener("click", () => {
+    removeFromCart(item);
+    cartItem.remove();
+    if (cart.length === 0) {
+      cartList.innerHTML = `
+        <div class="cart-empty">
+          <span class="cart-empty-icon">🛒</span>
+          <p>Din varukorg är tom</p>
+        </div>`;
+    }
+  });
 
-  li.appendChild(removeBtn);
-  cartCheckOutInfoList.appendChild(li);
-
-  price.innerText = calculatePrice();
+  cartList.appendChild(cartItem);
+  syncCartUI();
 }
 
-function removeFromCart(menuItem) {
-  const index = cart.findIndex((item) => item === menuItem);
-
-  cart.splice(index, 1);
-
-  itemsInBasket.innerText = cart.length;
-  price.innerText = calculatePrice();
+function removeFromCart(item) {
+  const idx = cart.findIndex((i) => i === item);
+  if (idx > -1) cart.splice(idx, 1);
+  syncCartUI();
 }
 
-function calculatePrice() {
-  let newPrice = 0;
-
-  for (const cartItem of cart) {
-    newPrice += cartItem.price;
-  }
-
-  return newPrice + " SEK";
+function syncCartUI() {
+  const total = cart.reduce((sum, i) => sum + i.price, 0);
+  priceEl.textContent = total + " SEK";
+  itemsEl.textContent = cart.length;
+  cartFab.classList.toggle("hidden", cart.length === 0);
 }
 
 function makeOrder() {
-  let orderInfo = document.getElementById("orderInfo");
+  const orderInfo = document.getElementById("orderInfo");
 
   if (cart.length < 1) {
-    orderInfo.innerText = "Du har inte gjort någon beställning";
-  } else {
-    cart.length = 0;
-
-    while (cartCheckOutInfoList.firstChild) {
-      cartCheckOutInfoList.removeChild(cartCheckOutInfoList.firstChild);
-    }
-
-    orderInfo.innerText =
-      "Välkommen att hämta upp din beställning om femton minuter - en kvart";
-
-    price.innerText = 0 + " SEK";
-    itemsInBasket.innerText = 0;
+    orderInfo.textContent = "Du har inte gjort någon beställning.";
+    return;
   }
+
+  cart.length = 0;
+  cartList.innerHTML = `
+    <div class="cart-empty">
+      <span class="cart-empty-icon">🛒</span>
+      <p>Din varukorg är tom</p>
+    </div>`;
+  orderInfo.textContent =
+    "Välkommen att hämta upp din beställning om femton minuter!";
+  syncCartUI();
 }

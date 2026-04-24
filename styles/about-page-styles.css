@@ -1,5 +1,128 @@
-.map-container{
-    display: flex;
-    justify-content: center;
-    width: auto;
+/* ── BODY ── */
+body {
+  background-image: none;
+}
+
+/* ── STORY SECTION ── */
+.story-section {
+  padding: 5.5rem 0;
+}
+
+.story-text {
+  color: var(--accent);
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
+.story-text p + p {
+  margin-top: 1.25rem;
+}
+
+.story-lead {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--accent-light);
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+/* ── HIGHLIGHT CARDS ── */
+.highlight-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  transition: all 0.32s ease;
+  height: 100%;
+}
+
+.highlight-card:hover {
+  border-color: var(--accent-dark);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.highlight-icon {
+  font-size: 2.1rem;
+  display: block;
+  margin-bottom: 0.85rem;
+  line-height: 1;
+}
+
+.highlight-card h5 {
+  color: var(--text-light);
+  margin-bottom: 0.45rem;
+  font-size: 1.05rem;
+}
+
+.highlight-card p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── VISIT SECTION ── */
+.visit-section {
+  padding: 4rem 0 6rem;
+}
+
+.visit-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-right: 2rem;
+}
+
+.visit-info-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.visit-info-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  line-height: 1;
+}
+
+.visit-info-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.visit-info-value {
+  color: var(--text-light);
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+/* ── MAP ── */
+.map-wrapper {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.45);
+}
+
+.map-wrapper iframe {
+  display: block;
+  width: 100%;
+  height: 380px;
+  border: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 991px) {
+  .visit-info {
+    padding-right: 0;
+    padding-bottom: 1rem;
+  }
 }
