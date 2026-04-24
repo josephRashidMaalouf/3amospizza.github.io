@@ -251,9 +251,9 @@ const obs = new IntersectionObserver(entries => {
       obs.unobserve(e.target);
     }
   });
-}, { threshold: 0.18 });
+}, { threshold: 0.14 });
 
-document.querySelectorAll('.content').forEach(el => obs.observe(el));
+document.querySelectorAll('.content, .reveal').forEach(el => obs.observe(el));
 
 /* ─────────────────────────────────────────
    CURSOR HINT — fade on first mouse move
